@@ -8,11 +8,6 @@ import AuthForm from '@/layouts/auth/AuthFrom.vue';
 
 import { Head, useForm } from '@inertiajs/vue3';
 
-defineProps<{
-    status?: string;
-    canResetPassword: boolean;
-}>();
-
 const form = useForm({
     email: '',
     password: '',
@@ -32,7 +27,7 @@ const submit = () => {
     <AuthForm title="Iniciar sesión" @submit="submit">
         <div class="grid gap-6">
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">Correo</Label>
                 <Input
                     id="email"
                     type="email"
@@ -47,10 +42,6 @@ const submit = () => {
             </div>
 
             <div class="grid gap-2">
-                <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
-                    <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5"> Forgot password? </TextLink>
-                </div>
                 <Input
                     id="password"
                     type="password"
@@ -58,27 +49,20 @@ const submit = () => {
                     :tabindex="2"
                     autocomplete="current-password"
                     v-model="form.password"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                 />
                 <InputError :message="form.errors.password" />
             </div>
 
-            <div class="flex items-center justify-between">
-                <Label for="remember" class="flex items-center space-x-3">
-                    <Checkbox id="remember" v-model="form.remember" :tabindex="3" />
-                    <span>Remember me</span>
-                </Label>
-            </div>
-
             <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
                 <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                Log in
+                Iniciar sesión
             </Button>
         </div>
 
         <div class="text-center text-sm text-muted-foreground">
-            Don't have an account?
-            <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
+            No tienes una cuenta?
+            <TextLink :href="route('register')" :tabindex="5">Registrarse</TextLink>
         </div>
     </AuthForm>
 </template>

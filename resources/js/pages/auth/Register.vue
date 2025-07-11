@@ -36,7 +36,7 @@ const submit = () => {
 
             <div class="grid gap-2">
                 <Label for="email">Correo</Label>
-                <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="Correo" />
+                <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
                 <InputError :message="form.errors.email" />
             </div>
 
