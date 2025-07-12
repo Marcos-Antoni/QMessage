@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Private;
 
+use App\Events\ChatEventClass;
+use App\Events\OrderShipmentStatusUpdated;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -25,5 +27,17 @@ class ChatController extends Controller
             return to_route('payments');
         }
 
+    }
+
+    public function store(): void
+    {
+        $codigo = random_int(10000000, 99999999);
+        $message = 'hola ' . $codigo;
+        $user = Auth::user()->email;
+        
+        // event(new \App\Events\OrderShipmentStatusUpdated(Auth::user()->id, 'Mensaje de prueba'));
+
+        event(new OrderShipmentStatusUpdated($codigo, $message));
+        // OrderShipmentStatusUpdated::dispatch($codigo, $message);
     }
 }
