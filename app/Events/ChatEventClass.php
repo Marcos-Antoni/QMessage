@@ -36,22 +36,8 @@ class ChatEventClass implements ShouldBroadcast
     {
         return [
             // new PrivateChannel('channel-name'),
-            new PrivateChannel('chat-global'),
+            new PrivateChannel('chat.global'),
         ];
-    }
-
-    // public function broadcast()
-    // {
-    //     dd([
-    //         "message" => $this->message,
-    //         "user" => $this->user,
-    //     ]);
-    // }
-
-
-    public function broadcastAs()
-    {
-        return 'chat-global';
     }
 
     public function broadcastWith()
@@ -59,6 +45,7 @@ class ChatEventClass implements ShouldBroadcast
         return [
             'message' => $this->message,
             'user' => $this->user,
+            'time' => now(),
         ];
     }
 

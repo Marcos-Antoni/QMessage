@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Private;
 use App\Events\ChatEventClass;
 use App\Events\OrderShipmentStatusUpdated;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -29,15 +30,15 @@ class ChatController extends Controller
 
     }
 
-    public function store(): void
+    public function store(Request $request): void
     {
-        $codigo = random_int(10000000, 99999999);
-        $message = 'hola ' . $codigo;
+        
+        $message = $request->message;
         $user = Auth::user()->email;
         
         // event(new \App\Events\OrderShipmentStatusUpdated(Auth::user()->id, 'Mensaje de prueba'));
-
-        event(new OrderShipmentStatusUpdated($codigo, $message));
         // OrderShipmentStatusUpdated::dispatch($codigo, $message);
+
+        event(new ChatEventClass($message, $user));
     }
 }
