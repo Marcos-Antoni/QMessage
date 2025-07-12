@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->boolean('status')->default(false);
+            $table->string('transaction_id')->nullable();
             $table->timestamps();
         });
     }
