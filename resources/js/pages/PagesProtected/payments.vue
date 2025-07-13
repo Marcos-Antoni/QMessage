@@ -48,14 +48,14 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
             <InputError :message="form.errors.payment" />
             <!-- Card Number -->
             <div class="space-y-2">
-                <Label for="card">Número de tarjeta</Label>
+                <Label class="text-gray-300" for="card">Número de tarjeta</Label>
                 <Input
                     id="card"
                     type="text"
                     required
                     v-model="form.card"
                     placeholder="1234 1234 1234 1234"
-                    class="py-6 text-base"
+                    class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
                     @input="limitCard({ event: $event, number: 16, from: 'card' })"
                 />
                 <InputError :message="form.errors.card" />
@@ -63,8 +63,15 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
 
             <!-- Cardholder Name -->
             <div class="space-y-2">
-                <Label for="name">Nombre del titular</Label>
-                <Input id="name" type="text" required v-model="form.name" placeholder="Como aparece en la tarjeta" class="py-6 text-base" />
+                <Label class="text-gray-300" for="name">Nombre del titular</Label>
+                <Input 
+                    id="name" 
+                    type="text" 
+                    required 
+                    v-model="form.name" 
+                    placeholder="Como aparece en la tarjeta" 
+                    class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30" 
+                />
                 <InputError :message="form.errors.name" />
             </div>
 
@@ -72,20 +79,20 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
             <div class="grid grid-cols-2 gap-4">
                 <!-- Expiry Date -->
                 <div class="space-y-2">
-                    <Label for="month">Vencimiento</Label>
+                    <Label class="text-gray-300" for="month">Vencimiento</Label>
                     <div class="flex gap-2">
-                        <Select v-model="form.month" class="text-center text-base" required>
-                            <SelectTrigger>
-                                <SelectValue placeholder="MM" />
+                        <Select v-model="form.month" required>
+                            <SelectTrigger class="border-gray-600/50 bg-gray-700/50 text-white focus:ring-2 focus:ring-blue-500/30">
+                                <SelectValue placeholder="MM" class="text-center" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem v-for="month in 12" :key="month" :value="month">{{ month }}</SelectItem>
                             </SelectContent>
                         </Select>
                         <span class="flex items-center text-gray-500">/</span>
-                        <Select v-model="form.year" class="text-center text-base" required>
-                            <SelectTrigger>
-                                <SelectValue placeholder="AA" />
+                        <Select v-model="form.year" required>
+                            <SelectTrigger class="border-gray-600/50 bg-gray-700/50 text-white focus:ring-2 focus:ring-blue-500/30">
+                                <SelectValue placeholder="AA" class="text-center" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem
@@ -102,14 +109,14 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
 
                 <!-- CVC -->
                 <div class="space-y-2">
-                    <Label for="cvc">CVC</Label>
+                    <Label class="text-gray-300" for="cvc">CVC</Label>
                     <Input
                         id="cvc"
                         type="number"
                         required
                         v-model="form.cvc"
                         placeholder="CVC"
-                        class="py-[8px] text-base"
+                        class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
                         @input="limitCard({ event: $event, number: 4, from: 'cvc' })"
                     />
                     <InputError :message="form.errors.cvc" />
@@ -117,7 +124,11 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
             </div>
 
             <!-- Submit Button -->
-            <Button type="submit" class="w-full py-6 text-base font-medium" :disabled="form.processing">
+            <Button 
+                type="submit" 
+                class="w-full bg-blue-600 py-3 text-base font-medium text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500/30" 
+                :disabled="form.processing"
+            >
                 <LoaderCircle v-if="form.processing" class="mr-2 h-5 w-5 animate-spin" />
                 {{ form.processing ? 'Procesando...' : 'Agregar método de pago' }}
             </Button>
