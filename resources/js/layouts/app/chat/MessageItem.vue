@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
 import { Message } from './types';
 
-defineProps<{
+const props = defineProps<{
     message: Message;
-    isOwnMessage: boolean;
 }>();
+const { user } = usePage().props.auth;
+
+const isOwnMessage = props.message.user_id === user.id;
 </script>
 
 <template>

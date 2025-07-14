@@ -77,7 +77,21 @@ const logout = () => {
 useEcho('chat.global', 'ChatEventClass', (e: MessageWebSocket) => {
     if (e.user_id == user.id) return;
 
-    const message = newMessage(e.message);
+    const message = {
+        id: messagesRef.value.length + 1,
+        user_id: e.user_id,
+        username: e.username,
+        message: e.message,
+        timestamp: new Date()
+            .toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+            })
+            .toUpperCase()
+            .replace(/\.\s*/g, ''),
+        avatar: e.avatar,
+    };
 
     messagesRef.value.push(message);
     scrollToBottom();
@@ -99,7 +113,7 @@ onMounted(() => {
 
             <!-- Área de mensajes -->
             <div ref="chatContainer" class="flex-1 space-y-4 overflow-y-auto bg-gray-900 p-4" style="height: calc(100vh - 140px)">
-                <MessageList :messages="messagesRef" :current-user-id="user.id" />
+                <MessageList :messages="messagesRef" />
             </div>
 
             <!-- Formulario de envío -->
