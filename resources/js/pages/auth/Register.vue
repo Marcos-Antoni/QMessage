@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-
 import AuthForm from '@/layouts/auth/AuthFrom.vue';
-
+import FormInput from '@/layouts/auth/FormInput.vue';
+import SubmitButton from '@/layouts/auth/SubmitButton.vue';
+import FormFooter from '@/layouts/auth/FormFooter.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
@@ -25,103 +21,89 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Register" />
+    <Head title="Registro" />
 
     <AuthForm title="Registrarse" @submit="submit">
         <div class="grid gap-6">
             <div class="flex flex-col gap-6 sm:flex-row sm:gap-2">
-                <div class="grid w-full gap-2 sm:w-1/2">
-                    <Label class="text-gray-300" for="first_name">Nombre</Label>
-                    <Input
-                        id="first_name"
-                        type="text"
-                        required
-                        autofocus
-                        :tabindex="1"
-                        autocomplete="first_name"
-                        v-model="form.first_name"
-                        placeholder="Nombre"
-                        class="border-gray-600/50 bg-gray-700/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
-                    />
-                    <InputError :message="form.errors.first_name" />
-                </div>
-
-                <div class="grid w-full gap-2 sm:w-1/2">
-                    <Label class="text-gray-300" for="last_name">Apellido</Label>
-                    <Input
-                        id="last_name"
-                        type="text"
-                        required
-                        :tabindex="2"
-                        autocomplete="last_name"
-                        v-model="form.last_name"
-                        placeholder="Apellido"
-                        class="border-gray-600/50 bg-gray-700/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
-                    />
-                    <InputError :message="form.errors.last_name" />
-                </div>
-            </div>
-
-            <div class="grid gap-2">
-                <Label class="text-gray-300" for="email">Correo</Label>
-                <Input
-                    id="email"
-                    type="email"
-                    required
-                    :tabindex="3"
-                    autocomplete="email"
-                    v-model="form.email"
-                    placeholder="email@example.com"
-                    class="border-gray-600/50 bg-gray-700/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                <FormInput
+                    id="first_name"
+                    label="Nombre"
+                    type="text"
+                    :required="true"
+                    :autofocus="true"
+                    :tabindex="1"
+                    autocomplete="given-name"
+                    v-model="form.first_name"
+                    placeholder="Nombre"
+                    :error="form.errors.first_name"
+                    input-class="w-full"
                 />
-                <InputError :message="form.errors.email" />
-            </div>
 
-            <div class="grid gap-2">
-                <Label class="text-gray-300" for="password">Contraseña</Label>
-                <Input
-                    id="password"
-                    type="password"
-                    required
-                    :tabindex="4"
-                    autocomplete="new-password"
-                    v-model="form.password"
-                    placeholder="Contraseña"
-                    class="border-gray-600/50 bg-gray-700/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                <FormInput
+                    id="last_name"
+                    label="Apellido"
+                    type="text"
+                    :required="true"
+                    :tabindex="2"
+                    autocomplete="family-name"
+                    v-model="form.last_name"
+                    placeholder="Apellido"
+                    :error="form.errors.last_name"
+                    input-class="w-full"
                 />
-                <InputError :message="form.errors.password" />
             </div>
 
-            <div class="grid gap-2">
-                <Label class="text-gray-300" for="password_confirmation">Confirmar contraseña</Label>
-                <Input
-                    id="password_confirmation"
-                    type="password"
-                    required
-                    :tabindex="5"
-                    autocomplete="new-password"
-                    v-model="form.password_confirmation"
-                    placeholder="Confirmar contraseña"
-                    class="border-gray-600/50 bg-gray-700/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
-                />
-                <InputError :message="form.errors.password_confirmation" />
-            </div>
+            <FormInput
+                id="email"
+                label="Correo electrónico"
+                type="email"
+                :required="true"
+                :tabindex="3"
+                autocomplete="email"
+                v-model="form.email"
+                placeholder="tucorreo@ejemplo.com"
+                :error="form.errors.email"
+            />
 
-            <Button
-                type="submit"
-                class="mt-2 w-full bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500/30"
-                tabindex="6"
-                :disabled="form.processing"
-            >
-                {{ form.processing ? 'Creando cuenta...' : 'Crear cuenta' }}
-            </Button>
+            <FormInput
+                id="password"
+                label="Contraseña"
+                type="password"
+                :required="true"
+                :tabindex="4"
+                autocomplete="new-password"
+                v-model="form.password"
+                placeholder="••••••••"
+                :error="form.errors.password"
+            />
+
+            <FormInput
+                id="password_confirmation"
+                label="Confirmar contraseña"
+                type="password"
+                :required="true"
+                :tabindex="5"
+                autocomplete="new-password"
+                v-model="form.password_confirmation"
+                placeholder="••••••••"
+                :error="form.errors.password_confirmation"
+            />
+
+            <SubmitButton
+                :processing="form.processing"
+                label="Crear cuenta"
+                loading-label="Creando cuenta..."
+                :tabindex="6"
+                class="mt-2"
+            />
         </div>
 
-        <div class="mt-6 text-center text-sm text-gray-400">
-            ¿Ya tienes una cuenta?
-            <TextLink :href="route('login')" class="text-decoration-none font-medium text-white hover:underline" :tabindex="7"
-                >Iniciar sesión</TextLink
-            >
-        </div>
+        <FormFooter
+            question="¿Ya tienes una cuenta?"
+            link-text="Iniciar sesión"
+            :link-href="route('login')"
+            :link-tabindex="7"
+        />
     </AuthForm>
 </template>

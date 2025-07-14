@@ -8,7 +8,6 @@ use App\Http\Controllers\HomeController;
 
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', [HomeController::class, 'create'])->name('home');
 Route::get('/', [HomeController::class, 'create'])->name('home');
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 

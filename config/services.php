@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'qpay' => [
+        'x_login' => env('X_LOGIN'),
+        'x_private_key' => env('X_PRIVATE_KEY'),
+        'x_api_secret' => env('X_API_SECRET'),
+    ],
+
 ];
