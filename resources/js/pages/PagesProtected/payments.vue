@@ -6,13 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 import AuthForm from '@/layouts/auth/AuthFrom.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 interface limitCardParams {
     event: { target: HTMLInputElement };
     number: number;
-    from: 'card' | 'cvc';
+    from: 'card' | 'cvc' | 'zip';
 }
 
 defineProps<{ error: string }>();
@@ -24,6 +24,11 @@ const form = useForm({
     year: 0,
     cvc: '',
     payment: '',
+
+    city: '',
+    state: '',
+    country: '',
+    zip: '',
 });
 
 const submit = async () => {
@@ -39,6 +44,10 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
         form[from] = event.target.value.slice(0, number);
     }
 };
+
+const logout = () => {
+    router.post(route('logout'));
+};
 </script>
 
 <template>
@@ -46,6 +55,77 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
     <AuthForm title="Método de pago" @submit="submit">
         <div class="space-y-6">
             <InputError :message="form.errors.payment" />
+
+            <!-- Cardholder Name -->
+            <div class="space-y-2">
+                <Label class="text-gray-300" for="name">Nombre del titular</Label>
+                <Input
+                    id="name"
+                    type="text"
+                    required
+                    v-model="form.name"
+                    placeholder="Como aparece en la tarjeta"
+                    class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                />
+                <InputError :message="form.errors.name" />
+            </div>
+
+            <!-- Address -->
+            <div class="grid grid-cols-1 gap-4 space-y-2 sm:grid-cols-2">
+                <div class="space-y-2">
+                    <Label class="text-gray-300" for="city">Ciudad</Label>
+                    <Input
+                        id="city"
+                        type="text"
+                        required
+                        v-model="form.city"
+                        placeholder="Ciudad"
+                        class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                    />
+                    <InputError :message="form.errors.city" />
+                </div>
+
+                <div class="space-y-2">
+                    <Label class="text-gray-300" for="state">Estado</Label>
+                    <Input
+                        id="state"
+                        type="text"
+                        required
+                        v-model="form.state"
+                        placeholder="Estado"
+                        class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                    />
+                    <InputError :message="form.errors.state" />
+                </div>
+
+                <div class="space-y-2">
+                    <Label class="text-gray-300" for="country">País</Label>
+                    <Input
+                        id="country"
+                        type="text"
+                        required
+                        v-model="form.country"
+                        placeholder="País"
+                        class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                    />
+                    <InputError :message="form.errors.country" />
+                </div>
+
+                <div class="space-y-2">
+                    <Label class="text-gray-300" for="zip">Código postal</Label>
+                    <Input
+                        @input="limitCard({ event: $event, number: 5, from: 'zip' })"
+                        id="zip"
+                        type="text"
+                        required
+                        v-model="form.zip"
+                        placeholder="Código postal"
+                        class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+                    />
+                    <InputError :message="form.errors.zip" />
+                </div>
+            </div>
+
             <!-- Card Number -->
             <div class="space-y-2">
                 <Label class="text-gray-300" for="card">Número de tarjeta</Label>
@@ -59,20 +139,6 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
                     @input="limitCard({ event: $event, number: 16, from: 'card' })"
                 />
                 <InputError :message="form.errors.card" />
-            </div>
-
-            <!-- Cardholder Name -->
-            <div class="space-y-2">
-                <Label class="text-gray-300" for="name">Nombre del titular</Label>
-                <Input 
-                    id="name" 
-                    type="text" 
-                    required 
-                    v-model="form.name" 
-                    placeholder="Como aparece en la tarjeta" 
-                    class="border-gray-600/50 bg-gray-700/50 py-3 text-base text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30" 
-                />
-                <InputError :message="form.errors.name" />
             </div>
 
             <!-- Expiry and CVC -->
@@ -124,14 +190,19 @@ const limitCard = ({ event, number, from }: limitCardParams) => {
             </div>
 
             <!-- Submit Button -->
-            <Button 
-                type="submit" 
-                class="w-full bg-blue-600 py-3 text-base font-medium text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500/30" 
+            <Button
+                type="submit"
+                class="w-full bg-blue-600 py-3 text-base font-medium text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500/30"
                 :disabled="form.processing"
             >
                 <LoaderCircle v-if="form.processing" class="mr-2 h-5 w-5 animate-spin" />
                 {{ form.processing ? 'Procesando...' : 'Agregar método de pago' }}
             </Button>
+
+            <p>
+                ¿Quieres cambiar de cuenta?
+                <span class="text-decoration-none cursor-pointer font-medium text-gray-300 hover:underline" @click="logout">cambiar de cuenta</span>
+            </p>
         </div>
     </AuthForm>
 </template>

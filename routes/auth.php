@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [HomeController::class, 'create'])->name('home');
 Route::get('/', [HomeController::class, 'create'])->name('home');
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
@@ -25,6 +26,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('chat', [ChatController::class, 'create'])->name('chat');
     Route::post('chat', [ChatController::class, 'store'])->name('chat');
+
    
 });
 

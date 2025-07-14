@@ -165,3 +165,7 @@
         @apply bg-background text-foreground;
     }
 }
+
+a {
+    text-decoration: none;
+}

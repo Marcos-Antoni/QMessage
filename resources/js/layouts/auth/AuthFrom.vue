@@ -1,9 +1,11 @@
 <script setup lang="ts">
-const emit = defineEmits(['submit']);
+import TextLink from '@/components/TextLink.vue';
 
-const props = defineProps<{
+defineProps<{
     title: string;
 }>();
+
+const emit = defineEmits(['submit']);
 
 const submit = () => {
     emit('submit');
@@ -15,7 +17,9 @@ const submit = () => {
         <div class="w-full max-w-md">
             <!-- Logo/Branding -->
             <div class="mb-8 text-center">
-                <h1 class="text-3xl font-bold text-blue-400">QMessage</h1>
+                <h1 class="text-decoration-none text-3xl font-bold">
+                    <TextLink :href="route('home')" class="text-decoration-none text-white">QMessage</TextLink>
+                </h1>
                 <p class="mt-2 text-gray-400">{{ title }}</p>
             </div>
 

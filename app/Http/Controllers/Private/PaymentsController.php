@@ -43,6 +43,11 @@ class PaymentsController extends Controller
                 'month' => 'required|numeric',
                 'year' => 'required|numeric',
                 'cvc' => 'required|numeric',
+
+                'city' => 'required|string',
+                'state' => 'required|string',
+                'country' => 'required|string',
+                'zip' => 'required|string',
             ]);
 
             $body = $this->bootqpay($request);
@@ -71,7 +76,7 @@ class PaymentsController extends Controller
         } catch (\Exception $e) {
             Log::error('Error en store: ' . $e->getMessage());
             throw ValidationException::withMessages([
-                'payment' => $e->getMessage()
+                'payment' => 'Un dato es incorrecto'
             ]);
         }
     }
@@ -102,11 +107,11 @@ class PaymentsController extends Controller
             "x_last_name" => Auth::user()->last_name, // apellido del cliente
             "x_company" => "QMessage", // nombre de la empresa
             "x_address" => "711-2880 Nulla", // direccion del cliente
-            "x_city" => "Guatemala", // ciudad del cliente
-            "x_state" => "Guatemala", // estado del cliente
-            "x_country" => "Guatemala", // pais del cliente
+            "x_city" => $request->city, // ciudad del cliente
+            "x_state" => $request->state, // estado del cliente
+            "x_country" => $request->country, // pais del cliente
             "x_relay_response" => "none", // respuesta de la transaccion
-            "x_zip" => "01056", // codigo postal del cliente
+            "x_zip" => $request->zip, // codigo postal del cliente
             "x_relay_url" => "none", // url de la transaccion
             "x_type" => "AUTH_ONLY", // tipo de transaccion
             "x_method" => "CC", // metodo de pago

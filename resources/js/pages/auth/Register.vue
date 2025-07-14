@@ -29,8 +29,8 @@ const submit = () => {
 
     <AuthForm title="Registrarse" @submit="submit">
         <div class="grid gap-6">
-            <div class="flex gap-2">
-                <div class="grid w-1/2 gap-2">
+            <div class="flex flex-col gap-6 sm:flex-row sm:gap-2">
+                <div class="grid w-full gap-2 sm:w-1/2">
                     <Label class="text-gray-300" for="first_name">Nombre</Label>
                     <Input
                         id="first_name"
@@ -46,7 +46,7 @@ const submit = () => {
                     <InputError :message="form.errors.first_name" />
                 </div>
 
-                <div class="grid w-1/2 gap-2">
+                <div class="grid w-full gap-2 sm:w-1/2">
                     <Label class="text-gray-300" for="last_name">Apellido</Label>
                     <Input
                         id="last_name"

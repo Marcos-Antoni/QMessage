@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+
+defineProps<{
+    isLogged: boolean;
+}>();
 </script>
 
 <template>
@@ -11,10 +15,10 @@ import { Head, Link } from '@inertiajs/vue3';
                 <div class="p-8 md:p-12">
                     <div class="mb-8 text-center">
                         <h1 class="mb-4 text-4xl font-bold text-blue-400 md:text-5xl">Chat Grupal Premium</h1>
-                        <p class="mb-6 text-xl text-gray-300">Conéctate y comparte con la comunidad</p>
+                        <p class="mb-6 text-xl text-gray-300">Conéctate y habla en el chat grupal</p>
 
                         <div class="mb-8 inline-flex items-center rounded-full border border-blue-400/30 bg-blue-900/30 px-6 py-2">
-                            <span class="font-medium text-blue-300">Solo 1Q por entrar</span>
+                            <span class="font-medium text-blue-300">Solo Q1 por entrar</span>
                         </div>
                     </div>
 
@@ -63,23 +67,36 @@ import { Head, Link } from '@inertiajs/vue3';
                                     <div
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white"
                                     >
-                                        <span>1Q</span>
+                                        <span>Q1</span>
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-300">Pago único de</p>
                                         <p class="font-bold text-white">1 Quetzal</p>
                                     </div>
                                 </div>
-                                <Link
-                                    :href="route('register')"
-                                    class="block w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-bold text-white transition duration-200 hover:bg-blue-700"
-                                >
-                                    Unirme Ahora
-                                </Link>
-                                <p class="text-center text-xs text-gray-400">
-                                    ¿Ya tienes cuenta?
-                                    <Link :href="route('login')" class="text-blue-400 hover:underline">Inicia sesión</Link>
-                                </p>
+                                <div v-if="isLogged">
+                                    <Link
+                                        :href="route('chat')"
+                                        class="block w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-bold text-white transition duration-200 hover:bg-blue-700"
+                                    >
+                                        Regresar al Chat
+                                    </Link>
+                                </div>
+                                <div class="space-y-2" v-else>
+                                    <Link
+                                        :href="route('register')"
+                                        class="block w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-bold text-white transition duration-200 hover:bg-blue-700"
+                                    >
+                                        Unirme Ahora
+                                    </Link>
+                                    <p class="text-center text-xs text-gray-400">¿Ya tienes cuenta?</p>
+                                    <Link
+                                        :href="route('login')"
+                                        class="block w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-bold text-white transition duration-200 hover:bg-blue-700"
+                                    >
+                                        Iniciar sesión
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
