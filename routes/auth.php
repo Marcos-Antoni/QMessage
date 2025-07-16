@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::post('payments', [PaymentsController::class, 'store']);
     
     Route::get('chat', [ChatController::class, 'create'])->name('chat');
-    Route::post('chat', [ChatController::class, 'store'])->name('chat');
+    Route::post('chat', [ChatController::class, 'store']);
 
    
 });
